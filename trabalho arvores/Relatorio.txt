@@ -1,3 +1,5 @@
-Neste trabalho foi implementada a remoção de nós em uma Árvore Binária de Busca utilizando recursividade. A implementação consegue remover nós folha, nós com apenas um filho e nós com dois filhos. Para remoção de nós com dois filhos foi utilizado o método do sucessor, que consiste em substituir o nó removido pelo menor valor da subárvore direita.
+Neste trabalho foi implementada a remoção de nós em uma Árvore Binária de Busca utilizando recursividade. A implementação consegue remover nós folha, nós com apenas um filho e nós com dois filhos.
 
-A implementação recursiva foi escolhida porque árvores binárias possuem uma estrutura naturalmente recursiva, tornando o código mais organizado, simples de entender e mais fácil de manter. Além disso, a recursividade facilita a navegação entre as subárvores sem necessidade de estruturas auxiliares complexas.
+Para remoção de nós com dois filhos foi utilizado o método do sucessor, também conhecido como “menor dos maiores”. Nesse processo, o menor valor da subárvore direita substitui o nó removido, mantendo a organização correta da árvore binária.
+
+A implementação recursiva foi escolhida porque árvores binárias possuem uma estrutura naturalmente recursiva. Isso torna o código mais organizado, mais simples de entender e mais fácil de manter. Além disso, a recursividade facilita a navegação entre os nós da árvore sem necessidade de estruturas auxiliares mais complexas.
