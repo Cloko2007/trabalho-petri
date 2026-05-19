@@ -1,52 +1,172 @@
 public class ArvoreBinaria {
 
-    public Node remover(Node node, int valor) {
+    No raiz;
 
-        if (node == null) {
+    public ArvoreBinaria() {
+        this.raiz = new No(null);
+        System.out.println("Árvore Binária criada com sucesso!");
+    }
+
+    public void inserir(Integer conteudo) {
+
+        No novoNo = new No(conteudo);
+
+        if (estaVazia()) {
+            this.raiz = novoNo;
+        } else {
+            inserirRecursivo(novoNo, this.raiz);
+        }
+    }
+
+    public void inserirRecursivo(No novoNo, No atual) {
+
+        if (atual.getConteudo() > novoNo.getConteudo()) {
+
+            if (atual.getEsquerda() == null) {
+                atual.setEsquerda(novoNo);
+            } else {
+                inserirRecursivo(novoNo, atual.getEsquerda());
+            }
+
+        } else if (atual.getConteudo().equals(novoNo.getConteudo())) {
+
+            System.out.println("Não é possível informar nós repetidos.");
+
+        } else {
+
+            if (atual.getDireita() == null) {
+                atual.setDireita(novoNo);
+            } else {
+                inserirRecursivo(novoNo, atual.getDireita());
+            }
+        }
+    }
+
+    public boolean estaVazia() {
+
+        return this.raiz.getConteudo() == null;
+    }
+
+    private void preOrdem(No no) {
+
+        if (no == null) {
+            return;
+        }
+
+        System.out.println(no.getConteudo());
+
+        preOrdem(no.getEsquerda());
+        preOrdem(no.getDireita());
+    }
+
+    private void emOrdem(No no) {
+
+        if (no == null) {
+            return;
+        }
+
+        emOrdem(no.getEsquerda());
+
+        System.out.println(no.getConteudo());
+
+        emOrdem(no.getDireita());
+    }
+
+    private void posOrdem(No no) {
+
+        if (no == null) {
+            return;
+        }
+
+        posOrdem(no.getEsquerda());
+        posOrdem(no.getDireita());
+
+        System.out.println(no.getConteudo());
+    }
+
+    public void exibir(String percurso) {
+
+        switch (percurso) {
+
+            case ("Pre"):
+                preOrdem(this.raiz);
+                break;
+
+            case ("Em"):
+                emOrdem(this.raiz);
+                break;
+
+            case ("Pos"):
+                posOrdem(this.raiz);
+                break;
+        }
+    }
+
+    // MÉTODO DE REMOÇÃO
+
+    public void remover(Integer valor) {
+        this.raiz = removerRecursivo(this.raiz, valor);
+    }
+
+    private No removerRecursivo(No atual, Integer valor) {
+
+        if (atual == null) {
             return null;
         }
 
-        if (valor < node.valor) {
-            node.esquerda = remover(node.esquerda, valor);
-        }
+        if (valor < atual.getConteudo()) {
 
-        else if (valor > node.valor) {
-            node.direita = remover(node.direita, valor);
-        }
+            atual.setEsquerda(
+                    removerRecursivo(atual.getEsquerda(), valor)
+            );
 
-        else {
+        } else if (valor > atual.getConteudo()) {
 
-            // Nó folha
-            if (node.esquerda == null && node.direita == null) {
+            atual.setDireita(
+                    removerRecursivo(atual.getDireita(), valor)
+            );
+
+        } else {
+
+            // CASO 1 - Nó folha
+            if (atual.getEsquerda() == null &&
+                atual.getDireita() == null) {
+
                 return null;
             }
 
-            // Nó com apenas um filho
-            if (node.esquerda == null) {
-                return node.direita;
+            // CASO 2 - Nó com apenas um filho
+            if (atual.getEsquerda() == null) {
+                return atual.getDireita();
             }
 
-            if (node.direita == null) {
-                return node.esquerda;
+            if (atual.getDireita() == null) {
+                return atual.getEsquerda();
             }
 
-            // Nó com dois filhos
-            Node sucessor = menorValor(node.direita);
+            // CASO 3 - Nó com dois filhos
+            No sucessor = menorValor(atual.getDireita());
 
-            node.valor = sucessor.valor;
+            atual.setConteudo(sucessor.getConteudo());
 
-            node.direita = remover(node.direita, sucessor.valor);
+            atual.setDireita(
+                    removerRecursivo(
+                            atual.getDireita(),
+                            sucessor.getConteudo()
+                    )
+            );
         }
 
-        return node;
+        return atual;
     }
 
-    private Node menorValor(Node node) {
+    // MÉTODO SUCESSOR
+    private No menorValor(No atual) {
 
-        while (node.esquerda != null) {
-            node = node.esquerda;
+        while (atual.getEsquerda() != null) {
+            atual = atual.getEsquerda();
         }
 
-        return node;
+        return atual;
     }
 }
